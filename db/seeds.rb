@@ -4,4 +4,5 @@
 # Examples:
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-  # Character.create(name: 'Luke', movie: movies.first)
+  # Character.create(name: 'Luke', movie: movies.first) 
+Product.create(name: "Dining Table", price: "$" + Faker::Number.number(4), description: "Oak Dining Table", image: "http://www.directfurnitureforu.com/ekmps/shops/terry/images/vancouver-oak-dining-table-extending-2540mm-large-22-p.jpg")
