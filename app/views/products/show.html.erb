@@ -3,8 +3,6 @@
 <p> <%= @product.name %> </p>
 <p> <%= @product.description %> </p>
 <p> <%= @product.price %> </p>
-<a href="/products/<%= @product.id %>/edit">Edit This Product</a>
-<%= form_tag "/products/#{@product.id}", method: :delete do %>
-  <input type="submit" value="Delete This Product">
-<% end %>
+<a href="/products/<%= @product.id %>/edit">Edit This Product</a><br>
+<%= link_to "Delete This Product", "/products/#{@product.id}", method: :delete %>
 
