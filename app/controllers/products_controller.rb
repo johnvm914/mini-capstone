@@ -23,21 +23,21 @@ class ProductsController < ApplicationController
     @product = Product.find_by(id: params[:id])
     @product.assign_attributes(name: params[:name], price: params[:price], image: params[:image], description: params[:description])
     @product.save
-    flash[:yes] = "Product has been updated!"
+    flash[:success] = "Product has been updated!"
     redirect_to "/products/#{@product.id}"
   end
 
   def create
     @product = Product.new(name: params[:name], price: params[:price], image: params[:image], description: params[:description])
     @product.save
-    flash[:yes] = "Product has been created!"
+    flash[:info] = "Product has been created!"
     redirect_to "/products/#{@product.id}"
   end
 
   def destroy
     @product = Product.find_by(id: params[:id])
     @product.destroy
-    flash[:yes] = "Product has been deleted!"
+    flash[:warning] = "Product has been deleted!"
     redirect_to "/products/"
   end
 

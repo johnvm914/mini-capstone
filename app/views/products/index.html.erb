@@ -1,7 +1,16 @@
 <h1>All Available Products:</h1>
-<% @products.each do |product| %>
-  <img src = <%= product.image %>>
-  <p><a href="/products/<%= product.id %>"><%= product.name %></a></p>
-  <p><%= product.description %></p>
-  <p><%= product.price %></p>
+<% @products.each_slice(3) do |three_products| %>
+  <div class="row">
+    <% three_products.each do |product| %>
+      <div class="col-md-4">
+        <div class="well">
+          <h3><a href="/products/<%= product.id %>"><%= product.name %></a></h3>
+          <img src = <%= product.image %>><br><br>
+          <p><%= product.description %></p>
+          <p><%= number_to_currency(product.price) %></p>
+          <p>In stock: <%= product.in_stock %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>  
 <% end %>

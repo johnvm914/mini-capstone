@@ -1,8 +1,16 @@
 <h1>Product:</h1>
+<h3> <%= @product.name %> </h3>
 <img src = <%= @product.image %>>
-<p> <%= @product.name %> </p>
+<h3> <%= @product.sale_message %> </h3>
 <p> <%= @product.description %> </p>
-<p> <%= @product.price %> </p>
+<% if @product.sale_message == "Discount Item!" %>
+  <p class="discount"> Price: <%= number_to_currency(@product.price) %> </p>
+<% else %>
+  <p> Price: <%= number_to_currency(@product.price) %> </p>
+<% end %>
+<p> Tax: <%= number_to_currency(@product.tax) %> </p>
+<p> Total Price: <%= number_to_currency(@product.total) %></p>
+<p> In stock: <%= @product.in_stock %>  </p>
 <a href="/products/<%= @product.id %>/edit">Edit This Product</a><br>
 <%= link_to "Delete This Product", "/products/#{@product.id}", method: :delete %>
 
