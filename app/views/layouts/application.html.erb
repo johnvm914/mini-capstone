@@ -25,13 +25,13 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
+        <li class="active"><a href="/products?price=500">Items Under $500<span class="sr-only">(current)</span></a></li>
+        <li><a href="/products/random_product">Random Product</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
+            <li><a href="/products?sort=price&order=asc">Sort by price(low to high)</a></li>
+            <li><a href="/products?sort=price&order=desc">Sort by price(high to low)</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Separated link</a></li>
@@ -41,19 +41,24 @@
         </li>
       </ul>
       <form class="navbar-form navbar-left">
+        <%= form_tag "/products/:", method: :get do %>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" placeholder="Search By Prod Name">
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
+        <% end %>
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#">Link</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
+          <% if current_user %>
+            <li><a href="/logout">Log Out</a></li>
+          <% else %>
+            <li><a href="/signup">Sign Up</a></li>
+            <li><a href="/login">Log In</a></li>
+          <% end %>
             <li role="separator" class="divider"></li>
             <li><a href="#">Separated link</a></li>
           </ul>
