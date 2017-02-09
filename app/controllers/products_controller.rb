@@ -1,13 +1,21 @@
 class ProductsController < ApplicationController
-
+  # before_action :authenticate_admin!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_admin!, except: [:index, :show]
   def index
     sort_attribute = params[:sort]
     sort_order = params[:order]
     max_price = params[:price]
+    category_name = params[:category]
+    product_name = params[:name]
     if sort_attribute
       @products = Product.order(sort_attribute => sort_order)
     elsif max_price
-      @products = Product.all.where("price < ?", max_price)
+      @products = Product.where("price < ?", max_price)
+    elsif category_name
+      selected_category = Category.find_by(name: category_name)
+      @products = selected_category.products
+    elsif product_name
+      @products = Product.where("name LIKE ?", "%#{product_name}%")
     else
       @products = Product.all
     end
@@ -24,6 +32,7 @@ class ProductsController < ApplicationController
   end
 
   def new
+    @product = Product.new
     render "new.html.erb"
   end
 
@@ -34,17 +43,26 @@ class ProductsController < ApplicationController
 
   def update
     @product = Product.find_by(id: params[:id])
-    @product.assign_attributes(name: params[:name], price: params[:price], image: params[:image], description: params[:description])
-    @product.save
-    flash[:success] = "Product has been updated!"
-    redirect_to "/products/#{@product.id}"
+    @product.assign_attributes(name: params[:name], price: params[:price], description: params[:description])
+    if @product.save
+      flash[:success] = "Product has been updated!"
+      redirect_to "/products/#{@product.id}"
+    else
+      flash[:error] = "Try again!"
+      render "edit.html.erb"
+    end
   end
 
   def create
-    @product = Product.new(name: params[:name], price: params[:price], image: params[:image], description: params[:description], supplier_id: params[:supplier_id])
-    @product.save
-    flash[:info] = "Product has been created!"
-    redirect_to "/products/#{@product.id}"
+    @product = Product.new(name: params[:name], price: params[:price], description: params[:description], supplier_id: params[:supplier_id])
+    if @product.save
+      @product.images.create(url: params[:image])
+      flash[:info] = "Product has been created!"
+      redirect_to "/products/#{@product.id}"
+    else
+      flash[:error] = "Try again!"
+      render "new.html.erb"
+    end
   end
 
   def destroy

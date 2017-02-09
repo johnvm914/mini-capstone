@@ -1,0 +1,15 @@
+<% if current_user %>
+  <h1>Here are your order(s):</h1>
+  <p>Order id: <%= @order.id %></p>
+  <% @order.carted_products.each do |carted_product| %>
+    <p>Product: <%= carted_product.product.name %></p>
+    <p>Quantity: <%= carted_product.quantity %></p>
+  <% end %>
+  <p>Subtotal: <%= @order.subtotal %></p>
+  <p>Tax: <%= @order.tax %></p>
+  <p>Total <%= @order.total %></p>
+  <p>Email: <%= @order.user.email %></p>
+  <p>Purchased on: <%= @order.created_at %></p>
+<% else %>
+  <p>To view your orders, please log in.</p>
+<% end %>

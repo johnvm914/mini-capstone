@@ -6,6 +6,10 @@
 <h3> <%= @product.sale_message %> </h3>
 <p> Supplier: <%= @product.supplier.name %> </p>
 <p> <%= @product.description %> </p>
+<p>Categories:
+<% @product.categories.each do |category| %>
+  <%= category.name %>
+<% end %></p>
 <% if @product.sale_message == "Discount Item!" %>
   <p class="discount"> Price: <%= number_to_currency(@product.price) %> </p>
 <% else %>
@@ -14,6 +18,22 @@
 <p> Tax: <%= number_to_currency(@product.tax) %> </p>
 <p> Total Price: <%= number_to_currency(@product.total) %></p>
 <p> In stock: <%= @product.in_stock %>  </p>
-<a href="/products/<%= @product.id %>/edit">Edit This Product</a><br>
-<%= link_to "Delete This Product", "/products/#{@product.id}", method: :delete %>
+<% if current_user && current_user.admin %>
+  <a href="/products/<%= @product.id %>/edit">Edit This Product</a><br>
+  <%= link_to "Delete This Product", "/products/#{@product.id}", method: :delete %>
+<% end %>
+<% if current_user %>
+  <%= form_tag "/carted_products", method: :post do %>
+    <div>
+      Quantity:
+      <input type="text" name="quantity">
+    </div>
+    <div>
+      <input type="hidden" name="product_id" value=<%= @product.id %>>
+    </div><br>
+    <div>
+      <input type="submit" value="Add To Cart!">
+    </div>
+  <% end %>
+<% end %>
 
